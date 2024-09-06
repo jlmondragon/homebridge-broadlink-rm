@@ -202,7 +202,7 @@ class HumidifierDehumidifierAccessory extends FanAccessory {
     device.checkHumidity();
 
     this.updateHumidityUI();
-    if (!config.isUnitTest && !config.noHumidity) {setInterval(this.updateHumidityUI.bind(this), config.humidityUpdateFrequency * 1000)}
+    if (!config.isUnitTest && !config.noHumidity) {setInterval(()=>{this.getCurrentHumidity(this.updateHumidityUI.bind(this))}, config.humidityUpdateFrequency * 1000)}
   }
 
   onHumidity (temperature,humidity) {
@@ -215,7 +215,7 @@ class HumidifierDehumidifierAccessory extends FanAccessory {
 
     humidity += humidityAdjustment;
     state.currentHumidity = humidity;
-    if(logLevel <=2) {log(`\x1b[36m[INFO] \x1b[0m${name} onHumidity (` + humidity + `)`);}
+    if(logLevel <=1) {log(`\x1b[34m[DEBUG]\x1b[0m ${name} onHumidity (` + humidity + `)`);}
 	 
 	  //Fakegato history update 
     //Ignore readings of exactly zero - the default no value value.
